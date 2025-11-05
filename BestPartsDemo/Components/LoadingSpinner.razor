@@ -1,0 +1,20 @@
+<div class="flex items-center justify-center @ContainerClass">
+    <div class="flex flex-col items-center space-y-4">
+        <div class="@Size border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+        @if (!string.IsNullOrWhiteSpace(Message))
+        {
+            <p class="text-gray-600">@Message</p>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Size { get; set; } = "w-12 h-12";
+
+    [Parameter]
+    public string Message { get; set; } = string.Empty;
+
+    [Parameter]
+    public string ContainerClass { get; set; } = "py-12";
+}

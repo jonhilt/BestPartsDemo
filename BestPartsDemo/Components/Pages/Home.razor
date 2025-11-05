@@ -1,4 +1,4 @@
-﻿@page "/"
+@page "/"
 @using BestPartsDemo.Models
 @rendermode InteractiveServer
 
@@ -10,25 +10,30 @@
         <p class="text-gray-600">Everyone you've ever met, all on one handy card wall!</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        @if(!contacts.Any())
-        {
-            <p>Loading contacts...</p>
-        }
-        @foreach (var contact in contacts)
-        {
-            <ContactCard Contact="@contact"/>
-        }
-    </div>
+    @if (_isLoading)
+    {
+        <LoadingSpinner Message="Loading contacts..." />
+    }
+    else
+    {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            @foreach (var contact in _contacts)
+            {
+                <ContactCard Contact="@contact"/>
+            }
+        </div>
+    }
 </div>
 
 @code {
 
-    private IEnumerable<Contact> contacts = [];
+    private List<Contact> _contacts = [];
+    private bool _isLoading = true;
 
     protected override async Task OnInitializedAsync()
     {
-        contacts = await GetContacts();
+        _contacts = await GetContacts();
+        _isLoading = false;
     }
 
     private async Task<List<Contact>> GetContacts()
