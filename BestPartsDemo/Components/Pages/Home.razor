@@ -12,7 +12,7 @@
 
     @if (_isLoading)
     {
-        <LoadingSpinner Message="Loading contacts..." />
+        <LoadingSpinner Message="Loading contacts..."/>
     }
     else
     {
@@ -27,13 +27,22 @@
 
 @code {
 
-    private List<Contact> _contacts = [];
-    private bool _isLoading = true;
+    List<Contact>? _contacts;
+
+    private bool _isLoading;
 
     protected override async Task OnInitializedAsync()
     {
-        _contacts = await GetContacts();
-        _isLoading = false;
+        Console.WriteLine($"Contacts Length: {(RendererInfo.IsInteractive ? "interactive" : "prerender")}: {_contacts?.Count ?? 0}");
+        
+        if (_contacts == null)
+        {
+            Console.WriteLine("fetching contacts...");
+            
+            _isLoading = true;
+            _contacts = await GetContacts();
+            _isLoading = false;
+        }
     }
 
     private async Task<List<Contact>> GetContacts()
