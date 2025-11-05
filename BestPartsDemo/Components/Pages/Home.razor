@@ -1,0 +1,51 @@
+﻿@page "/"
+@using BestPartsDemo.Models
+@rendermode InteractiveServer
+
+<PageTitle>Contacts</PageTitle>
+
+<div class="container mx-auto px-4 py-8">
+    <div class="mb-8">
+        <h1 class="text-4xl font-bold text-gray-800 mb-2">Contacts</h1>
+        <p class="text-gray-600">Everyone you've ever met, all on one handy card wall!</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        @if(!contacts.Any())
+        {
+            <p>Loading contacts...</p>
+        }
+        @foreach (var contact in contacts)
+        {
+            <ContactCard Contact="@contact"/>
+        }
+    </div>
+</div>
+
+@code {
+
+    private IEnumerable<Contact> contacts = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        contacts = await GetContacts();
+    }
+
+    private async Task<List<Contact>> GetContacts()
+    {
+        await Task.Delay(500);
+
+        return
+        [
+            new("Alice Johnson", "alice.johnson@techcorp.com", "+1 (555) 123-4567", "TechCorp Inc.", "Senior Developer"),
+            new("Bob Smith", "bob.smith@innovate.io", "+1 (555) 234-5678", "Innovate.io", "Product Manager"),
+            new("Carol Martinez", "carol.m@designstudio.com", "+1 (555) 345-6789", "Design Studio", "UX Designer"),
+            new("David Chen", "david.chen@cloudservices.net", "+1 (555) 456-7890", "Cloud Services", "DevOps Engineer"),
+            new("Emily Brown", "emily.brown@datainsights.com", "+1 (555) 567-8901", "Data Insights", "Data Scientist"),
+            new("Frank Wilson", "frank.w@startuplab.xyz", "+1 (555) 678-9012", "Startup Lab", "CTO"),
+            new("Grace Lee", "grace.lee@marketpro.com", "+1 (555) 789-0123", "MarketPro", "Marketing Director"),
+            new("Henry Taylor", "henry.taylor@financeplus.com", "+1 (555) 890-1234", "FinancePlus", "Financial Analyst")
+        ];
+    }
+
+}

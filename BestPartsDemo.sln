@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestPartsDemo", "BestPartsDemo\BestPartsDemo.csproj", "{A9FFC970-2C95-4C1F-B855-0F83F3158F88}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9FFC970-2C95-4C1F-B855-0F83F3158F88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9FFC970-2C95-4C1F-B855-0F83F3158F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9FFC970-2C95-4C1F-B855-0F83F3158F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9FFC970-2C95-4C1F-B855-0F83F3158F88}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
