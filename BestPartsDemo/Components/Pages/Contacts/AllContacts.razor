@@ -59,9 +59,9 @@
 
 @code {
 
-    [PersistentState] public List<Contact>? Contacts { get; set; } = [];
+    private List<Contact>? _contacts = [];
     private bool _isLoading;
-    
+
     private ContactSortState _sortState = new(SortField.Name, false);
 
     private IEnumerable<Contact>? SortedContacts
@@ -70,10 +70,10 @@
         {
             var sorted = _sortState.Field switch
             {
-                SortField.Name => Contacts?.OrderBy(c => c.Name),
-                SortField.Company => Contacts?.OrderBy(c => c.Company),
-                SortField.JobTitle => Contacts?.OrderBy(c => c.Role),
-                _ => Contacts ?? Enumerable.Empty<Contact>()
+                SortField.Name => _contacts?.OrderBy(c => c.Name),
+                SortField.Company => _contacts?.OrderBy(c => c.Company),
+                SortField.JobTitle => _contacts?.OrderBy(c => c.Role),
+                _ => _contacts ?? Enumerable.Empty<Contact>()
             };
 
             return _sortState.IsDescending ? sorted?.Reverse() : sorted;
@@ -82,11 +82,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (Contacts == null || Contacts.Count == 0)
+        if (_contacts == null || _contacts.Count == 0)
         {
             _isLoading = true;
             await Task.Delay(750); // Simulate loading delay for demo purposes
-            Contacts = await ContactService.GetAllContactsAsync();
+            _contacts = await ContactService.GetAllContactsAsync();
             _isLoading = false;
         }
     }
@@ -101,15 +101,6 @@
         {
             _sortState = new ContactSortState(field, false);
         }
-    }
-
-    private record ContactSortState(SortField Field, bool IsDescending);
-
-    private enum SortField
-    {
-        Name,
-        Company,
-        JobTitle
     }
 
 }
