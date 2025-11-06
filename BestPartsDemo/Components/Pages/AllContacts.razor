@@ -1,0 +1,136 @@
+@page "/contacts/all"
+@using BestPartsDemo.Models
+@rendermode InteractiveServer
+
+<PageTitle>All Contacts</PageTitle>
+
+<div class="container mx-auto px-4 py-8">
+    <div class="mb-8">
+        <h1 class="text-4xl font-bold text-gray-800 mb-2">All Contacts</h1>
+        <p class="text-gray-600">The complete directory of everyone you've ever met</p>
+    </div>
+
+    @if (_isLoading)
+    {
+        <LoadingSpinner Message="Loading all contacts..."/>
+    }
+    else
+    {
+        <div class="mb-6 flex items-center gap-3">
+            <span class="text-gray-700 font-medium">Sort by:</span>
+            <div class="flex gap-2">
+                <button @onclick="@(() => SetSortOrder(SortField.Name))"
+                        class="px-4 py-2 rounded-lg transition-colors flex items-center gap-2 @(_sortState.Field == SortField.Name ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
+                    <span>Name</span>
+                    @if (_sortState.Field == SortField.Name)
+                    {
+                        <span>@(_sortState.IsDescending ? "↓" : "↑")</span>
+                    }
+                </button>
+                <button @onclick="@(() => SetSortOrder(SortField.Company))"
+                        class="px-4 py-2 rounded-lg transition-colors flex items-center gap-2 @(_sortState.Field == SortField.Company ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
+                    <span>Company</span>
+                    @if (_sortState.Field == SortField.Company)
+                    {
+                        <span>@(_sortState.IsDescending ? "↓" : "↑")</span>
+                    }
+                </button>
+                <button @onclick="@(() => SetSortOrder(SortField.JobTitle))"
+                        class="px-4 py-2 rounded-lg transition-colors flex items-center gap-2 @(_sortState.Field == SortField.JobTitle ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
+                    <span>Job Title</span>
+                    @if (_sortState.Field == SortField.JobTitle)
+                    {
+                        <span>@(_sortState.IsDescending ? "↓" : "↑")</span>
+                    }
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            @foreach (var contact in SortedContacts)
+            {
+                <ContactCard Contact="@contact"/>
+            }
+        </div>
+    }
+</div>
+
+@code {
+
+    [PersistentState] public List<Contact>? Contacts { get; set; } = [];
+    private bool _isLoading;
+    private ContactSortState _sortState = new(SortField.Name, false);
+
+    private IEnumerable<Contact>? SortedContacts
+    {
+        get
+        {
+            var sorted = _sortState.Field switch
+            {
+                SortField.Name => Contacts?.OrderBy(c => c.Name),
+                SortField.Company => Contacts?.OrderBy(c => c.Company),
+                SortField.JobTitle => Contacts?.OrderBy(c => c.Role),
+                _ => Contacts ?? Enumerable.Empty<Contact>()
+            };
+
+            return _sortState.IsDescending ? sorted?.Reverse() : sorted;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Contacts == null)
+        {
+            _isLoading = true;
+            Contacts = await GetContacts();
+            _isLoading = false;
+        }
+    }
+
+    private void SetSortOrder(SortField field)
+    {
+        if (_sortState.Field == field)
+        {
+            _sortState = _sortState with { IsDescending = !_sortState.IsDescending };
+        }
+        else
+        {
+            _sortState = new ContactSortState(field, false);
+        }
+    }
+
+    private async Task<List<Contact>> GetContacts()
+    {
+        await Task.Delay(750);
+
+        return
+        [
+            new("Alice Johnson", "alice.johnson@techcorp.com", "+1 (555) 123-4567", "TechCorp Inc.", "Senior Developer"),
+            new("Bob Smith", "bob.smith@innovate.io", "+1 (555) 234-5678", "Innovate.io", "Product Manager"),
+            new("Carol Martinez", "carol.m@designstudio.com", "+1 (555) 345-6789", "Design Studio", "UX Designer"),
+            new("David Chen", "david.chen@cloudservices.net", "+1 (555) 456-7890", "Cloud Services", "DevOps Engineer"),
+            new("Emily Brown", "emily.brown@datainsights.com", "+1 (555) 567-8901", "Data Insights", "Data Scientist"),
+            new("Frank Wilson", "frank.w@startuplab.xyz", "+1 (555) 678-9012", "Startup Lab", "CTO"),
+            new("Grace Lee", "grace.lee@marketpro.com", "+1 (555) 789-0123", "MarketPro", "Marketing Director"),
+            new("Henry Taylor", "henry.taylor@financeplus.com", "+1 (555) 890-1234", "FinancePlus", "Financial Analyst"),
+            new("Iris Thompson", "iris.t@healthtech.io", "+1 (555) 901-2345", "HealthTech", "Medical Director"),
+            new("Jack Rodriguez", "jack.rodriguez@edulearn.com", "+1 (555) 012-3456", "EduLearn", "Education Specialist"),
+            new("Karen White", "karen.white@legalservices.net", "+1 (555) 123-4560", "Legal Services", "Senior Counsel"),
+            new("Leo Kim", "leo.kim@automate.tech", "+1 (555) 234-5601", "Automate Tech", "Automation Engineer"),
+            new("Maya Patel", "maya.patel@socialnetwork.io", "+1 (555) 345-6012", "Social Network", "Community Manager"),
+            new("Noah Garcia", "noah.garcia@retailpro.com", "+1 (555) 456-0123", "RetailPro", "Operations Manager"),
+            new("Olivia Jackson", "olivia.j@creativestudio.co", "+1 (555) 567-1234", "Creative Studio", "Art Director"),
+            new("Peter Anderson", "peter.anderson@logistics.net", "+1 (555) 678-2345", "Logistics Plus", "Supply Chain Manager")
+        ];
+    }
+
+    private record ContactSortState(SortField Field, bool IsDescending);
+
+    private enum SortField
+    {
+        Name,
+        Company,
+        JobTitle
+    }
+
+}
