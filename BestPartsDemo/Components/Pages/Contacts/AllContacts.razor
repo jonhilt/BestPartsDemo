@@ -1,5 +1,7 @@
 @page "/contacts/all"
 @using BestPartsDemo.Models
+@using BestPartsDemo.Services
+@inject IContactService ContactService
 @rendermode InteractiveServer
 
 <PageTitle>All Contacts</PageTitle>
@@ -59,6 +61,7 @@
 
     [PersistentState] public List<Contact>? Contacts { get; set; } = [];
     private bool _isLoading;
+    
     private ContactSortState _sortState = new(SortField.Name, false);
 
     private IEnumerable<Contact>? SortedContacts
@@ -79,10 +82,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (Contacts == null)
+        if (Contacts == null || Contacts.Count == 0)
         {
             _isLoading = true;
-            Contacts = await GetContacts();
+            await Task.Delay(750); // Simulate loading delay for demo purposes
+            Contacts = await ContactService.GetAllContactsAsync();
             _isLoading = false;
         }
     }
@@ -97,31 +101,6 @@
         {
             _sortState = new ContactSortState(field, false);
         }
-    }
-
-    private async Task<List<Contact>> GetContacts()
-    {
-        await Task.Delay(750);
-
-        return
-        [
-            new("Alice Johnson", "alice.johnson@techcorp.com", "+1 (555) 123-4567", "TechCorp Inc.", "Senior Developer"),
-            new("Bob Smith", "bob.smith@innovate.io", "+1 (555) 234-5678", "Innovate.io", "Product Manager"),
-            new("Carol Martinez", "carol.m@designstudio.com", "+1 (555) 345-6789", "Design Studio", "UX Designer"),
-            new("David Chen", "david.chen@cloudservices.net", "+1 (555) 456-7890", "Cloud Services", "DevOps Engineer"),
-            new("Emily Brown", "emily.brown@datainsights.com", "+1 (555) 567-8901", "Data Insights", "Data Scientist"),
-            new("Frank Wilson", "frank.w@startuplab.xyz", "+1 (555) 678-9012", "Startup Lab", "CTO"),
-            new("Grace Lee", "grace.lee@marketpro.com", "+1 (555) 789-0123", "MarketPro", "Marketing Director"),
-            new("Henry Taylor", "henry.taylor@financeplus.com", "+1 (555) 890-1234", "FinancePlus", "Financial Analyst"),
-            new("Iris Thompson", "iris.t@healthtech.io", "+1 (555) 901-2345", "HealthTech", "Medical Director"),
-            new("Jack Rodriguez", "jack.rodriguez@edulearn.com", "+1 (555) 012-3456", "EduLearn", "Education Specialist"),
-            new("Karen White", "karen.white@legalservices.net", "+1 (555) 123-4560", "Legal Services", "Senior Counsel"),
-            new("Leo Kim", "leo.kim@automate.tech", "+1 (555) 234-5601", "Automate Tech", "Automation Engineer"),
-            new("Maya Patel", "maya.patel@socialnetwork.io", "+1 (555) 345-6012", "Social Network", "Community Manager"),
-            new("Noah Garcia", "noah.garcia@retailpro.com", "+1 (555) 456-0123", "RetailPro", "Operations Manager"),
-            new("Olivia Jackson", "olivia.j@creativestudio.co", "+1 (555) 567-1234", "Creative Studio", "Art Director"),
-            new("Peter Anderson", "peter.anderson@logistics.net", "+1 (555) 678-2345", "Logistics Plus", "Supply Chain Manager")
-        ];
     }
 
     private record ContactSortState(SortField Field, bool IsDescending);

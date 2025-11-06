@@ -1,4 +1,7 @@
 using BestPartsDemo.Components;
+using BestPartsDemo.Data;
+using BestPartsDemo.Services;
+using Microsoft.EntityFrameworkCore;
 using Tailwind;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Register EF Core with in-memory database
+builder.Services.AddDbContext<ContactDbContext>(options =>
+    options.UseInMemoryDatabase("ContactsDb"));
+
+// Register contact service
+builder.Services.AddScoped<IContactService, ContactService>();
 
 builder.UseTailwindCli();
 
@@ -27,5 +37,12 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+// Ensure the database is created and seeded
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ContactDbContext>();
+    context.Database.EnsureCreated();
+}
 
 app.Run();
