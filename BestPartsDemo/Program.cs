@@ -6,15 +6,12 @@ using Tailwind;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+    .AddInteractiveServerComponents(options => options.DisconnectedCircuitRetentionPeriod = TimeSpan.Zero);
 
-// Register EF Core with in-memory database
 builder.Services.AddDbContext<ContactDbContext>(options =>
     options.UseInMemoryDatabase("ContactsDb"));
 
-// Register contact service
 builder.Services.AddScoped<IContactService, ContactService>();
 
 builder.UseTailwindCli();
