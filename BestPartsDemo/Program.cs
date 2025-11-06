@@ -2,9 +2,12 @@ using BestPartsDemo.Components;
 using BestPartsDemo.Data;
 using BestPartsDemo.Services;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 using Tailwind;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents(options => options.DisconnectedCircuitRetentionPeriod = TimeSpan.Zero);
@@ -14,9 +17,21 @@ builder.Services.AddDbContext<ContactDbContext>(options =>
 
 builder.Services.AddScoped<IContactService, ContactService>();
 
+builder.AddRedisClient(connectionName: "cache");
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("cache");
+    options.InstanceName = "BestPartsDemo_";
+});
+
+builder.Services.AddHybridCache();
+
 builder.UseTailwindCli();
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
