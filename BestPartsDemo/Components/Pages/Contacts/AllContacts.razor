@@ -49,9 +49,12 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            @foreach (var contact in SortedContacts)
+            @if (SortedContacts != null)
             {
-                <ContactCard Contact="@contact"/>
+                foreach (var contact in SortedContacts)
+                {
+                    <ContactCard Contact="@contact"/>
+                }
             }
         </div>
     }
@@ -59,10 +62,21 @@
 
 @code {
 
-    [PersistentState] public List<Contact>? Contacts { get; set; } = [];
-    private bool _isLoading;
+    [PersistentState] public IEnumerable<Contact>? Contacts { get; set; }
 
     private ContactSortState _sortState = new(SortField.Name, false);
+    private bool _isLoading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Contacts == null || !Contacts.Any())
+        {
+            _isLoading = true;
+            await Task.Delay(750); // Simulate loading delay for demo purposes
+            Contacts = await ContactService.GetAllContactsAsync();
+            _isLoading = false;
+        }
+    }
 
     private IEnumerable<Contact>? SortedContacts
     {
@@ -73,21 +87,10 @@
                 SortField.Name => Contacts?.OrderBy(c => c.Name),
                 SortField.Company => Contacts?.OrderBy(c => c.Company),
                 SortField.JobTitle => Contacts?.OrderBy(c => c.Role),
-                _ => Contacts ?? Enumerable.Empty<Contact>()
+                _ => Contacts
             };
 
             return _sortState.IsDescending ? sorted?.Reverse() : sorted;
-        }
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        if (Contacts == null || Contacts.Count == 0)
-        {
-            _isLoading = true;
-            await Task.Delay(750); // Simulate loading delay for demo purposes
-            Contacts = await ContactService.GetAllContactsAsync();
-            _isLoading = false;
         }
     }
 
