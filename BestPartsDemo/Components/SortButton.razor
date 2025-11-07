@@ -1,7 +1,7 @@
 ﻿<button @onclick="OnClick"
-        class="px-4 py-2 rounded-lg transition-colors flex items-center gap-2 @(active ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
+        class="px-4 py-2 rounded-lg transition-colors flex items-center gap-2 @(Active ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
     <span>@ChildContent</span>
-    @if (active)
+    @if (Active)
     {
         <span>@(IsDescending.GetValueOrDefault() ? "↓" : "↑")</span>
     }
@@ -13,11 +13,11 @@
     public EventCallback OnClick { get; set; }
     
     [Parameter]
-    public bool active { get; set; }
+    public bool Active { get; set; }
     
     [Parameter]
     public bool? IsDescending { get; set; }
     
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
 
 }
