@@ -35,14 +35,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine($"Contacts Length: {(RendererInfo.IsInteractive ? "interactive" : "prerender")}: {_contacts?.Count ?? 0}");
-
         if (_contacts == null)
         {
-            Console.WriteLine("fetching contacts...");
-
             _isLoading = true;
-            await Task.Delay(500); // Simulate loading delay for demo purposes
+
+            if (RendererInfo.IsInteractive)
+            {
+                await Task.Delay(500); // Simulate loading delay for demo purposes
+            }
+
             _contacts = await ContactService.GetAllContactsAsync();
             _isLoading = false;
         }
