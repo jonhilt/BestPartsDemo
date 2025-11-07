@@ -57,7 +57,10 @@ public static class Extensions
             {
                 metrics.AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
-                    .AddRuntimeInstrumentation();
+                    .AddRuntimeInstrumentation()
+                    .AddMeter("Microsoft.AspNetCore.Components")
+                    .AddMeter("Microsoft.AspNetCore.Components.Lifecycle")
+                    .AddMeter("Microsoft.AspNetCore.Components.Server.Circuits");
             })
             .WithTracing(tracing =>
             {
@@ -68,6 +71,8 @@ public static class Extensions
                             !context.Request.Path.StartsWithSegments(HealthEndpointPath)
                             && !context.Request.Path.StartsWithSegments(AlivenessEndpointPath)
                     )
+                    .AddSource("Microsoft.AspNetCore.Components")
+                    .AddSource("Microsoft.AspNetCore.Components.Server.Circuits")
                     // Uncomment the following line to enable gRPC instrumentation (requires the OpenTelemetry.Instrumentation.GrpcNetClient package)
                     //.AddGrpcClientInstrumentation()
                     .AddHttpClientInstrumentation();
