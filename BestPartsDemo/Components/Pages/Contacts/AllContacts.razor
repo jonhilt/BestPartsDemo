@@ -8,59 +8,57 @@
 
 <ContactNav/>
 
-<div class="container mx-auto px-4 py-8">
-    <div class="mb-8 flex justify-between items-start">
-        <div>
-            <h1 class="text-4xl font-bold text-gray-800 mb-2">All Contacts</h1>
-            <p class="text-gray-600">The complete directory of everyone you've ever met</p>
+<div class="mb-8 flex justify-between items-start">
+    
+    <p>The complete directory of everyone you've ever met…</p>
+
+    <LinkButton href="/contacts/add">
+        Add Contact
+    </LinkButton>
+</div>
+
+@if (_isLoading)
+{
+    <LoadingSpinner Message="Loading all contacts..."/>
+}
+else
+{
+    <div class="mb-6 flex items-center gap-3">
+        <span class="text-gray-700 font-medium">Sort by:</span>
+        <div class="flex gap-2">
+
+            <SortButton OnClick="() => SetSortOrder(SortField.Name)"
+                        Active="_sortState?.Field == SortField.Name"
+                        IsDescending="_sortState?.IsDescending">
+                Name
+            </SortButton>
+
+            <SortButton OnClick="() => SetSortOrder(SortField.Company)"
+                        Active="_sortState?.Field == SortField.Company"
+                        IsDescending="_sortState?.IsDescending">
+                Company
+            </SortButton>
+
+            <SortButton OnClick="() => SetSortOrder(SortField.JobTitle)"
+                        Active="_sortState?.Field == SortField.JobTitle"
+                        IsDescending="_sortState?.IsDescending">
+                JobTitle
+            </SortButton>
+
         </div>
-        <a href="/contacts/add" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-            Add Contact
-        </a>
     </div>
 
-    @if (_isLoading)
-    {
-        <LoadingSpinner Message="Loading all contacts..."/>
-    }
-    else
-    {
-        <div class="mb-6 flex items-center gap-3">
-            <span class="text-gray-700 font-medium">Sort by:</span>
-            <div class="flex gap-2">
-
-                <SortButton OnClick="() => SetSortOrder(SortField.Name)"
-                            Active="_sortState?.Field == SortField.Name"
-                            IsDescending="_sortState?.IsDescending">
-                    Name
-                </SortButton>
-
-                <SortButton OnClick="() => SetSortOrder(SortField.Company)"
-                            Active="_sortState?.Field == SortField.Company"
-                            IsDescending="_sortState?.IsDescending">
-                    Company
-                </SortButton>
-
-                <SortButton OnClick="() => SetSortOrder(SortField.JobTitle)"
-                            Active="_sortState?.Field == SortField.JobTitle"
-                            IsDescending="_sortState?.IsDescending">
-                    JobTitle
-                </SortButton>
-
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            @if (SortedContacts != null)
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        @if (SortedContacts != null)
+        {
+            foreach (var contact in SortedContacts)
             {
-                foreach (var contact in SortedContacts)
-                {
-                    <ContactCard Contact="@contact"/>
-                }
+                <ContactCard Contact="@contact"/>
             }
-        </div>
-    }
-</div>
+        }
+    </div>
+}
+
 
 @code {
 

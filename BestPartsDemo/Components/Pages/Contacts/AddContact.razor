@@ -5,13 +5,12 @@
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 
-<div class="container mx-auto px-4 py-8">
-    <div class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-800 mb-2">Add New Contact</h1>
-        <p class="text-gray-600">Fill in the details below to create a new contact</p>
-    </div>
+<div class="mb-8">
+    <h1 class="text-4xl font-bold text-gray-800 mb-2">Add New Contact</h1>
+    <p class="text-gray-600">Fill in the details below to create a new contact</p>
+</div>
 
-    <div class="max-w-2xl">
+<div class="max-w-2xl">
         <EditForm Model="@NewContact" OnValidSubmit="@HandleValidSubmit">
             <DataAnnotationsValidator/>
 
@@ -69,7 +68,6 @@
                 }
             </div>
         </EditForm>
-    </div>
 </div>
 
 @code {

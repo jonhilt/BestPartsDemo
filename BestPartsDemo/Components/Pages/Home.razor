@@ -6,26 +6,26 @@
 
 <PageTitle>Contacts</PageTitle>
 
-<div class="container mx-auto px-4 py-8">
-    <div class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-800 mb-2">Blazor CRM</h1>
-        <p class="text-gray-600">Welcome, here are your most recent contacts…</p>
-    </div>
 
-    @if (_isLoading)
-    {
-        <LoadingSpinner Message="Loading contacts..."/>
-    }
-    else
-    {
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            @foreach (var contact in _contacts ?? Enumerable.Empty<Contact>())
-            {
-                <ContactCard Contact="@contact"/>
-            }
-        </div>
-    }
+<div class="mb-8">
+    <h1 class="text-4xl font-bold text-gray-800 mb-2">Blazor CRM</h1>
+    <p class="text-gray-600">Welcome, here are your most recent contacts…</p>
 </div>
+
+@if (_isLoading)
+{
+    <LoadingSpinner Message="Loading contacts..."/>
+}
+else
+{
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        @foreach (var contact in _contacts.Take(10) ?? Enumerable.Empty<Contact>())
+        {
+            <ContactCard Contact="@contact"/>
+        }
+    </div>
+}
+
 
 @code {
 

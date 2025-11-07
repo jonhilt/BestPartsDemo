@@ -1,11 +1,15 @@
-﻿<div class="flex gap-2">
-    <NavLink class="p-2 border rounded-md [&.active]:bg-indigo-600 [&.active]:!text-white" href="/contacts/all">
+﻿@using BestPartsDemo.Components.Icons
+
+<div class="flex items-center gap-1 mt-2 mb-4 bg-gray-100 p-2 min-w-7xl">
+    <NavLink class="text-blue-600 hover:text-blue-800 hover:underline [&.active]:text-gray-700 [&.active]:font-semibold [&.active]:no-underline" href="/contacts/all">
         All Contacts
     </NavLink>
 
     @if (ContactId != null)
     {
-        <NavLink class="p-2 border rounded-md [&.active]:bg-indigo-600 [&.active]:!text-white" href="/contacts/" + @ContactId>
+        <Chevron />
+
+        <NavLink class="text-blue-600 hover:text-blue-800 hover:underline [&.active]:text-gray-700 [&.active]:font-semibold [&.active]:no-underline" href="/contacts/" + @ContactId>
             Contact @ContactId
         </NavLink>
     }
