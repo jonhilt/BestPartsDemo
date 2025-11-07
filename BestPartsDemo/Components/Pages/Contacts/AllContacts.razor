@@ -21,30 +21,25 @@
         <div class="mb-6 flex items-center gap-3">
             <span class="text-gray-700 font-medium">Sort by:</span>
             <div class="flex gap-2">
-                <button @onclick="@(() => SetSortOrder(SortField.Name))"
-                        class="px-4 py-2 rounded-lg transition-colors flex items-center gap-2 @(_sortState.Field == SortField.Name ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
-                    <span>Name</span>
-                    @if (_sortState.Field == SortField.Name)
-                    {
-                        <span>@(_sortState.IsDescending ? "↓" : "↑")</span>
-                    }
-                </button>
-                <button @onclick="@(() => SetSortOrder(SortField.Company))"
-                        class="px-4 py-2 rounded-lg transition-colors flex items-center gap-2 @(_sortState.Field == SortField.Company ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
-                    <span>Company</span>
-                    @if (_sortState.Field == SortField.Company)
-                    {
-                        <span>@(_sortState.IsDescending ? "↓" : "↑")</span>
-                    }
-                </button>
-                <button @onclick="@(() => SetSortOrder(SortField.JobTitle))"
-                        class="px-4 py-2 rounded-lg transition-colors flex items-center gap-2 @(_sortState.Field == SortField.JobTitle ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
-                    <span>Job Title</span>
-                    @if (_sortState.Field == SortField.JobTitle)
-                    {
-                        <span>@(_sortState.IsDescending ? "↓" : "↑")</span>
-                    }
-                </button>
+
+                <SortButton OnClick="() => SetSortOrder(SortField.Name)"
+                            active="_sortState?.Field == SortField.Name"
+                            IsDescending="_sortState?.IsDescending">
+                    Name
+                </SortButton>
+
+                <SortButton OnClick="() => SetSortOrder(SortField.Company)"
+                            active="_sortState?.Field == SortField.Company"
+                            IsDescending="_sortState?.IsDescending">
+                    Company
+                </SortButton>
+
+                <SortButton OnClick="() => SetSortOrder(SortField.JobTitle)"
+                            active="_sortState?.Field == SortField.JobTitle"
+                            IsDescending="_sortState?.IsDescending">
+                    JobTitle
+                </SortButton>
+
             </div>
         </div>
 
@@ -64,15 +59,22 @@
 
     [PersistentState] public IEnumerable<Contact>? Contacts { get; set; }
 
-    private ContactSortState _sortState = new(SortField.Name, false);
+    private ContactSortState? _sortState;
     private bool _isLoading;
 
     protected override async Task OnInitializedAsync()
     {
+        _sortState ??= new ContactSortState(SortField.Name, false);
+
         if (Contacts == null || !Contacts.Any())
         {
             _isLoading = true;
-            await Task.Delay(750); // Simulate loading delay for demo purposes
+
+            if (RendererInfo.IsInteractive)
+            {
+                await Task.Delay(750); // Simulate loading delay for demo purposes
+            }
+
             Contacts = await ContactService.GetAllContactsAsync();
             _isLoading = false;
         }
@@ -82,6 +84,11 @@
     {
         get
         {
+            if (_sortState == null)
+            {
+                return Contacts;
+            }
+
             var sorted = _sortState.Field switch
             {
                 SortField.Name => Contacts?.OrderBy(c => c.Name),
@@ -96,7 +103,7 @@
 
     private void SetSortOrder(SortField field)
     {
-        if (_sortState.Field == field)
+        if (_sortState?.Field == field)
         {
             _sortState = _sortState with { IsDescending = !_sortState.IsDescending };
         }
