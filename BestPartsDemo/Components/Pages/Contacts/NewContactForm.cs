@@ -2,8 +2,8 @@
 
 namespace BestPartsDemo.Components.Pages.Contacts;
 
-[NoBot]
-[ValidatableType]
+// [NoBot]
+// [ValidatableType]
 public class NewContactForm
 {
     public Contact Contact { get; set; }
