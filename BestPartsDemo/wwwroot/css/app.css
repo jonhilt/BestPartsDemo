@@ -43,6 +43,8 @@
     --text-sm--line-height: calc(1.25 / 0.875);
     --text-xl: 1.25rem;
     --text-xl--line-height: calc(1.75 / 1.25);
+    --text-2xl: 1.5rem;
+    --text-2xl--line-height: calc(2 / 1.5);
     --text-4xl: 2.25rem;
     --text-4xl--line-height: calc(2.5 / 2.25);
     --text-5xl: 3rem;
@@ -235,14 +237,14 @@
   .mx-auto {
     margin-inline: auto;
   }
-  .my-2 {
-    margin-block: calc(var(--spacing) * 2);
-  }
   .mt-1 {
     margin-top: calc(var(--spacing) * 1);
   }
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
+  }
+  .mt-8 {
+    margin-top: calc(var(--spacing) * 8);
   }
   .mr-2 {
     margin-right: calc(var(--spacing) * 2);
@@ -289,9 +291,6 @@
   .min-h-screen {
     min-height: 100vh;
   }
-  .\!w-full {
-    width: 100% !important;
-  }
   .w-4 {
     width: calc(var(--spacing) * 4);
   }
@@ -313,38 +312,11 @@
   .max-w-xl {
     max-width: var(--container-xl);
   }
-  .min-w-2xl {
-    min-width: var(--container-2xl);
-  }
-  .min-w-5xl {
-    min-width: var(--container-5xl);
-  }
-  .min-w-6xl {
-    min-width: var(--container-6xl);
-  }
   .min-w-7xl {
     min-width: var(--container-7xl);
   }
-  .min-w-\[100px\] {
-    min-width: 100px;
-  }
   .min-w-\[200px\] {
     min-width: 200px;
-  }
-  .min-w-full {
-    min-width: 100%;
-  }
-  .min-w-lg {
-    min-width: var(--container-lg);
-  }
-  .min-w-md {
-    min-width: var(--container-md);
-  }
-  .min-w-sm {
-    min-width: var(--container-sm);
-  }
-  .min-w-xs {
-    min-width: var(--container-xs);
   }
   .flex-1 {
     flex: 1;
@@ -440,6 +412,13 @@
     border-style: var(--tw-border-style);
     border-width: 4px;
   }
+  .border-t {
+    border-top-style: var(--tw-border-style);
+    border-top-width: 1px;
+  }
+  .border-gray-200 {
+    border-color: var(--color-gray-200);
+  }
   .border-gray-300 {
     border-color: var(--color-gray-300);
   }
@@ -451,9 +430,6 @@
   }
   .border-t-indigo-600 {
     border-top-color: var(--color-indigo-600);
-  }
-  .bg-blue-600 {
-    background-color: var(--color-blue-600);
   }
   .bg-gray-100 {
     background-color: var(--color-gray-100);
@@ -485,9 +461,6 @@
     --tw-gradient-to: var(--color-purple-600);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
-  .p-1 {
-    padding: calc(var(--spacing) * 1);
-  }
   .p-2 {
     padding: calc(var(--spacing) * 2);
   }
@@ -500,9 +473,6 @@
   .p-8 {
     padding: calc(var(--spacing) * 8);
   }
-  .px-2 {
-    padding-inline: calc(var(--spacing) * 2);
-  }
   .px-3 {
     padding-inline: calc(var(--spacing) * 3);
   }
@@ -512,14 +482,8 @@
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
   }
-  .py-3 {
-    padding-block: calc(var(--spacing) * 3);
-  }
   .py-4 {
     padding-block: calc(var(--spacing) * 4);
-  }
-  .py-8 {
-    padding-block: calc(var(--spacing) * 8);
   }
   .py-12 {
     padding-block: calc(var(--spacing) * 12);
@@ -527,8 +491,15 @@
   .pt-4 {
     padding-top: calc(var(--spacing) * 4);
   }
+  .pt-6 {
+    padding-top: calc(var(--spacing) * 6);
+  }
   .text-center {
     text-align: center;
+  }
+  .text-2xl {
+    font-size: var(--text-2xl);
+    line-height: var(--tw-leading, var(--text-2xl--line-height));
   }
   .text-4xl {
     font-size: var(--text-4xl);
@@ -590,6 +561,9 @@
   }
   .text-white {
     color: var(--color-white);
+  }
+  .underline {
+    text-decoration-line: underline;
   }
   .shadow-md {
     --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
@@ -683,16 +657,6 @@
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
-  .\[\&\.active\]\:bg-gray-200 {
-    &.active {
-      background-color: var(--color-gray-200);
-    }
-  }
-  .\[\&\.active\]\:bg-indigo-200 {
-    &.active {
-      background-color: var(--color-indigo-200);
-    }
-  }
   .\[\&\.active\]\:bg-indigo-600 {
     &.active {
       background-color: var(--color-indigo-600);
@@ -702,11 +666,6 @@
     &.active {
       --tw-font-weight: var(--font-weight-semibold);
       font-weight: var(--font-weight-semibold);
-    }
-  }
-  .\[\&\.active\]\:\!text-gray-600 {
-    &.active {
-      color: var(--color-gray-600) !important;
     }
   }
   .\[\&\.active\]\:\!text-white {

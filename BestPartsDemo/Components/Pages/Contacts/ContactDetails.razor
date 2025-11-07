@@ -1,19 +1,90 @@
-﻿@page "/contacts/{contactId:int}"
+@page "/contacts/{contactId:int}"
+@using BestPartsDemo.Models
+@using BestPartsDemo.Services
+@using BestPartsDemo.Components.Icons
+@inject IContactService ContactService
+@rendermode InteractiveServer
 
-<ContactNav ContactId="ContactId"/>
+<ContactNav ContactId="ContactId" ContactName="@_contact.Name"/>
 
-<div class="mb-8">
-    <h1 class="text-4xl font-bold text-gray-800 mb-2">@ContactId</h1>
-</div>
+@if (_isLoading)
+{
+    <LoadingSpinner Message="Loading contact details..." />
+}
+else if (_contact == null)
+{
+    <div class="p-4 bg-red-50 border border-red-200 rounded-md">
+        <p class="text-red-800">Contact not found.</p>
+    </div>
+}
+else
+{
+    <div class="mb-8">
+        <h1 class="text-4xl font-bold text-gray-800 mb-2">@_contact.Name</h1>
+        <p class="text-gray-600">@_contact.Role at @_contact.Company</p>
+    </div>
 
-<h3>Contact Details</h3>
+    <div class="bg-white shadow-md rounded-lg p-6 max-w-2xl">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Contact Information</h2>
 
-Tis all the contact details
+        <div class="space-y-4">
+            <div class="flex items-start gap-3">
+                <div class="mt-1">
+                    <BriefcaseIcon />
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Role</p>
+                    <p class="text-gray-800">@_contact.Role</p>
+                </div>
+            </div>
 
-@ContactId
+            <div class="flex items-start gap-3">
+                <div class="mt-1">
+                    <BriefcaseIcon />
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Company</p>
+                    <p class="text-gray-800">@_contact.Company</p>
+                </div>
+            </div>
 
+            <div class="flex items-start gap-3">
+                <div class="mt-1">
+                    <MailIcon />
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Email</p>
+                    <a href="mailto:@_contact.Email" class="text-blue-600 hover:text-blue-800 hover:underline">
+                        @_contact.Email
+                    </a>
+                </div>
+            </div>
 
+            <div class="flex items-start gap-3">
+                <div class="mt-1">
+                    <PhoneIcon />
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Phone</p>
+                    <a href="tel:@_contact.Phone" class="text-blue-600 hover:text-blue-800 hover:underline">
+                        @_contact.Phone
+                    </a>
+                </div>
+            </div>
+        </div>
+ 
+    </div>
+}
 
 @code {
     [Parameter] public int ContactId { get; set; }
+
+    private Contact? _contact;
+    private bool _isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _contact = await ContactService.GetContactByIdAsync(ContactId);
+        _isLoading = false;
+    }
 }

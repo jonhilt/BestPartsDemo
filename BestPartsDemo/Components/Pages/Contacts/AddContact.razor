@@ -11,63 +11,64 @@
 </div>
 
 <div class="max-w-2xl">
-        <EditForm Model="@NewContact" OnValidSubmit="@HandleValidSubmit">
-            <DataAnnotationsValidator/>
+    <EditForm Model="@NewContact" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator/>
 
-            <div class="bg-white shadow-md rounded-lg p-6 space-y-6">
-                <div>
-                    <Label For="name" Text="Name" Required="true"/>
-                    <InputText id="name" @bind-Value="NewContact.Contact.Name"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                    <ValidationMessage For="@(() => NewContact.Contact.Name)" class="text-red-600 text-sm mt-1"/>
-                </div>
-
-                <div>
-                    <Label For="email" Text="Email" Required="true"/>
-                    <InputText id="email" @bind-Value="NewContact.Contact.Email" type="email"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                    <ValidationMessage For="@(() => NewContact.Contact.Email)" class="text-red-600 text-sm mt-1"/>
-                </div>
-
-                <div>
-                    <Label For="phone" Text="Phone" Required="true"/>
-                    <InputText id="phone" @bind-Value="NewContact.Contact.Phone"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                    <ValidationMessage For="@(() => NewContact.Contact.Phone)" class="text-red-600 text-sm mt-1"/>
-                </div>
-
-                <div>
-                    <Label For="company" Text="Company" Required="true"/>
-                    <InputText id="company" @bind-Value="NewContact.Contact.Company"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                    <ValidationMessage For="@(() => NewContact.Contact.Company)" class="text-red-600 text-sm mt-1"/>
-                </div>
-
-                <div>
-                    <Label For="role" Text="Role" Required="true"/>
-                    <InputText id="role" @bind-Value="NewContact.Contact.Role"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-                    <ValidationMessage For="@(() => NewContact.Contact.Role)" class="text-red-600 text-sm mt-1"/>
-                </div>
-
-                <InputText class="hidden w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" @bind-Value="NewContact.Honeypot"/>
-
-                <div class="flex gap-4 pt-4">
-                    <Button type="submit">
-                        Create Contact
-                    </Button>
-                </div>
-
-                @* <ValidationSummary /> *@
-                
-                @if (!string.IsNullOrEmpty(_errorMessage))
-                {
-                    <div class="p-4 bg-red-50 border border-red-200 rounded-md">
-                        <p class="text-red-800">@_errorMessage</p>
-                    </div>
-                }
+        <div class="bg-white shadow-md rounded-lg p-6 space-y-6">
+            <div>
+                <Label For="name" Text="Name" Required="true"/>
+                <InputText id="name" @bind-Value="NewContact.Contact.Name"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md"/>
+                <ValidationMessage For="@(() => NewContact.Contact.Name)" class="text-red-600 text-sm mt-1"/>
             </div>
-        </EditForm>
+
+            <div>
+                <Label For="email" Text="Email" Required="true"/>
+                <InputText id="email" @bind-Value="NewContact.Contact.Email" type="email"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md"/>
+                <ValidationMessage For="@(() => NewContact.Contact.Email)" class="text-red-600 text-sm mt-1"/>
+            </div>
+
+            <div>
+                <Label For="phone" Text="Phone" Required="true"/>
+                <InputText id="phone" @bind-Value="NewContact.Contact.Phone"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md"/>
+                <ValidationMessage For="@(() => NewContact.Contact.Phone)" class="text-red-600 text-sm mt-1"/>
+            </div>
+
+            <div>
+                <Label For="company" Text="Company" Required="true"/>
+                <InputText id="company" @bind-Value="NewContact.Contact.Company"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md"/>
+                <ValidationMessage For="@(() => NewContact.Contact.Company)" class="text-red-600 text-sm mt-1"/>
+            </div>
+
+            <div>
+                <Label For="role" Text="Role" Required="true"/>
+                <InputText id="role" @bind-Value="NewContact.Contact.Role"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md"/>
+                <ValidationMessage For="@(() => NewContact.Contact.Role)" class="text-red-600 text-sm mt-1"/>
+            </div>
+
+            <InputText class="hidden w-full px-3 py-2 border border-gray-300 rounded-md"
+                       @bind-Value="NewContact.Honeypot"/>
+
+            <div class="flex gap-4 pt-4">
+                <Button type="submit">
+                    Create Contact
+                </Button>
+            </div>
+
+            @* <ValidationSummary /> *@
+
+            @if (!string.IsNullOrEmpty(_errorMessage))
+            {
+                <div class="p-4 bg-red-50 border border-red-200 rounded-md">
+                    <p class="text-red-800">@_errorMessage</p>
+                </div>
+            }
+        </div>
+    </EditForm>
 </div>
 
 @code {
@@ -98,5 +99,5 @@
             _errorMessage = $"Error creating contact: {ex.Message}";
         }
     }
- 
+
 }
