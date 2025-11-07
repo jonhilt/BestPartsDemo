@@ -1,34 +1,35 @@
 @using BestPartsDemo.Components.Icons
 @using BestPartsDemo.Models
 
-<div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200">
-    <div class="flex items-center space-x-4 mb-4">
-        <Avatar Name="@Contact.Name" />
-        <div class="flex-1">
-            <h3 class="text-xl font-semibold text-gray-800">@Contact.Name</h3>
-            <p class="text-sm text-gray-500">@Contact.Role</p>
+<a href="/contacts/@Contact.Id">
+    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200">
+        <div class="flex items-center space-x-4 mb-4">
+            <Avatar Name="@Contact.Name"/>
+            <div class="flex-1">
+                <h3 class="text-xl font-semibold text-gray-800">@Contact.Name</h3>
+                <p class="text-sm text-gray-500">@Contact.Role</p>
+            </div>
+        </div>
+
+        <div class="space-y-2">
+            <div class="flex items-center text-gray-600">
+                <BriefcaseIcon CssClass="w-5 h-5 mr-2 text-indigo-500"/>
+                <span class="text-sm">@Contact.Company</span>
+            </div>
+
+            <div class="flex items-center text-gray-600">
+                <MailIcon CssClass="w-5 h-5 mr-2 text-indigo-500"/>
+                <span class="text-sm">@Contact.Email</span>
+            </div>
+
+            <div class="flex items-center text-gray-600">
+                <PhoneIcon CssClass="w-5 h-5 mr-2 text-indigo-500"/>
+                <span class="text-sm">@Contact.Phone</span>
+            </div>
         </div>
     </div>
-
-    <div class="space-y-2">
-        <div class="flex items-center text-gray-600">
-            <BriefcaseIcon CssClass="w-5 h-5 mr-2 text-indigo-500" />
-            <span class="text-sm">@Contact.Company</span>
-        </div>
-
-        <div class="flex items-center text-gray-600">
-            <MailIcon CssClass="w-5 h-5 mr-2 text-indigo-500" />
-            <span class="text-sm">@Contact.Email</span>
-        </div>
-
-        <div class="flex items-center text-gray-600">
-            <PhoneIcon CssClass="w-5 h-5 mr-2 text-indigo-500" />
-            <span class="text-sm">@Contact.Phone</span>
-        </div>
-    </div>
-</div>
+</a>
 
 @code {
-    [Parameter, EditorRequired]
-    public Contact Contact { get; set; } = default!;
+    [Parameter, EditorRequired] public Contact Contact { get; set; } = null!;
 }

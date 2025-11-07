@@ -12,6 +12,7 @@
       <PackageReference Include="Aspire.StackExchange.Redis.DistributedCaching" Version="9.5.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.10" />
       <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" Version="9.10.0" />
+      <PackageReference Include="SuperSimpleBlazorModal" Version="1.2.0" />
       <PackageReference Include="Tailwind.Extensions.AspNetCore" Version="1.1.2" />
     </ItemGroup>
 

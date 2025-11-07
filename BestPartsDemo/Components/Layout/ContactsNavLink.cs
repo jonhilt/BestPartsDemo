@@ -2,10 +2,11 @@
 
 namespace BestPartsDemo.Components.Layout;
 
-public class CustomNavLink : NavLink
+public class ContactsNavLink : NavLink
 {
     protected override bool ShouldMatch(string uriAbsolute)
     {
-        return uriAbsolute.EndsWith("bob");
+        Console.WriteLine(uriAbsolute);
+        return uriAbsolute.Contains("/contacts");
     }
 }
