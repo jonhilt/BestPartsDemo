@@ -1,8 +1,13 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="flex">
-
-    <main>
+    <section class="flex flex-col space-y-1 p-2">
+        <NavLink class="p-2 border rounded-md bg-indigo [&.active]:bg-indigo-600 [&.active]:!text-white" href="/" Match="NavLinkMatch.All">Home</NavLink>
+        <NavLink class="p-2 border rounded-md bg-indigo [&.active]:bg-indigo-600 [&.active]:!text-white" href="/contacts/all">All Contacts</NavLink>
+        
+        <NavLink class="p-2 border rounded-md bg-indigo [&.active]:bg-indigo-600" href="/nopagehere">Trigger Not Found</NavLink>
+    </section>
+    <main class>
         <article class="px-4">
             @Body
         </article>

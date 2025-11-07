@@ -17,15 +17,15 @@ builder.Services.AddDbContext<ContactDbContext>(options =>
 
 builder.Services.AddScoped<IContactService, ContactService>();
 
-builder.AddRedisClient(connectionName: "cache");
-
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = builder.Configuration.GetConnectionString("cache");
-    options.InstanceName = "BestPartsDemo_";
-});
-
-builder.Services.AddHybridCache();
+// builder.AddRedisClient(connectionName: "cache");
+//
+// builder.Services.AddStackExchangeRedisCache(options =>
+// {
+//     options.Configuration = builder.Configuration.GetConnectionString("cache");
+//     options.InstanceName = "BestPartsDemo_";
+// });
+//
+// builder.Services.AddHybridCache();
 
 builder.UseTailwindCli();
 
