@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 using Tailwind;
 
+AppContext.SetSwitch("Microsoft.AspNetCore.Components.Routing.NavLink.EnableMatchAllForQueryStringAndFragment", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
@@ -26,6 +28,8 @@ builder.Services.AddScoped<IContactService, ContactService>();
 // });
 //
 // builder.Services.AddHybridCache();
+
+builder.Services.AddValidation();
 
 builder.UseTailwindCli();
 

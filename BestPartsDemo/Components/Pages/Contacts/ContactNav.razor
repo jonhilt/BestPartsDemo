@@ -1,17 +1,18 @@
 ﻿<div class="flex gap-2">
-    <NavLink class="p-2 border rounded-md [&.active]:bg-indigo-600 [&.active]:!text-white" href="/contacts/all">All
-        Contacts
+    <NavLink class="p-2 border rounded-md [&.active]:bg-indigo-600 [&.active]:!text-white" href="/contacts/all">
+        All Contacts
     </NavLink>
 
     @if (ContactId != null)
     {
-        <NavLink class="p-2 border rounded-md [&.active]:bg-indigo-600 [&.active]:!text-white" href="/contacts/" +
-                 @ContactId>
+        <NavLink class="p-2 border rounded-md [&.active]:bg-indigo-600 [&.active]:!text-white" href="/contacts/" + @ContactId>
             Contact @ContactId
         </NavLink>
     }
 </div>
 
 @code {
+
     [Parameter] public int? ContactId { get; set; }
+
 }

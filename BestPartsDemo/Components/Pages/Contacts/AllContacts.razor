@@ -9,9 +9,14 @@
 <ContactNav/>
 
 <div class="container mx-auto px-4 py-8">
-    <div class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-800 mb-2">All Contacts</h1>
-        <p class="text-gray-600">The complete directory of everyone you've ever met</p>
+    <div class="mb-8 flex justify-between items-start">
+        <div>
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">All Contacts</h1>
+            <p class="text-gray-600">The complete directory of everyone you've ever met</p>
+        </div>
+        <a href="/contacts/add" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            Add Contact
+        </a>
     </div>
 
     @if (_isLoading)
