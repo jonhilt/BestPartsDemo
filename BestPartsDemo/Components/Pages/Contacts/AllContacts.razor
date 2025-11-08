@@ -26,7 +26,7 @@ else
 {
     <div class="mb-6 flex flex-col gap-4">
         <div class="max-w-md">
-            <SearchInput Value="@_searchTerm"
+            <SearchInput Value="@SearchQuery"
                          ValueChanged="@HandleSearchChanged"
                          Placeholder="Search contacts by name, email, company, or role..."/>
         </div>
@@ -65,10 +65,10 @@ else
                 }
             </div>
         }
-        else if (!string.IsNullOrEmpty(_searchTerm))
+        else if (!string.IsNullOrEmpty(SearchQuery))
         {
             <div class="p-8 text-center text-gray-500">
-                <p class="text-lg">No contacts found matching "@_searchTerm"</p>
+                <p class="text-lg">No contacts found matching "@SearchQuery"</p>
                 <p class="text-sm mt-2">Try adjusting your search terms</p>
             </div>
         }
@@ -82,15 +82,13 @@ else
         public string? SearchQuery { get; set; }
 
         private ContactSortState? _sortState;
-        
+
         private bool _isLoading;
-        private string _searchTerm = "";
 
         protected override async Task OnInitializedAsync()
         {
             _sortState ??= new ContactSortState(SortField.Name, false);
-            _searchTerm = SearchQuery ?? "";
-
+           
             if (Contacts == null || !Contacts.Any())
             {
                 _isLoading = true;
@@ -109,9 +107,9 @@ else
         {
             get
             {
-                return string.IsNullOrWhiteSpace(_searchTerm) 
+                return string.IsNullOrWhiteSpace(SearchQuery)
                     ? Contacts
-                    : Contacts?.Where(c => c.Name.Contains(_searchTerm, StringComparison.OrdinalIgnoreCase));
+                    : Contacts?.Where(c => c.Name.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase));
             }
         }
 
@@ -138,15 +136,10 @@ else
             }
         }
 
-        private void HandleSearchChanged(string searchTerm)
+        private void HandleSearchChanged(string? searchTerm)
         {
-            _searchTerm = searchTerm;
-
-            var url = string.IsNullOrWhiteSpace(searchTerm)
-                ? "/contacts/all"
-                : $"/contacts/all?search={Uri.EscapeDataString(searchTerm)}";
-
-            Navigation.NavigateTo(url);
+            Navigation.NavigateTo(
+                Navigation.GetUriWithQueryParameter("search", searchTerm));
         }
 
         private void SetSortOrder(SortField field)

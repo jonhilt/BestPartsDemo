@@ -19,7 +19,7 @@
 
 @code {
     [Parameter] public string Value { get; set; } = "";
-    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
     [Parameter] public string Placeholder { get; set; } = "Search...";
 
     private async Task HandleInput(ChangeEventArgs e)
