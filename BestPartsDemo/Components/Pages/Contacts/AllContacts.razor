@@ -82,6 +82,7 @@ else
         public string? SearchQuery { get; set; }
 
         private ContactSortState? _sortState;
+        
         private bool _isLoading;
         private string _searchTerm = "";
 
@@ -108,12 +109,9 @@ else
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(_searchTerm))
-                {
-                    return Contacts;
-                }
-
-                return Contacts?.Where(c => c.Name.Contains(_searchTerm, StringComparison.OrdinalIgnoreCase));
+                return string.IsNullOrWhiteSpace(_searchTerm) 
+                    ? Contacts
+                    : Contacts?.Where(c => c.Name.Contains(_searchTerm, StringComparison.OrdinalIgnoreCase));
             }
         }
 
