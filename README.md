@@ -71,11 +71,11 @@ This will start the Aspire dashboard and orchestrate both the application and Re
 
 This repository demonstrates the migration to .NET 10:
 
-- **`master`** - Contains the current, up-to-date code with .NET 10 fixes applied
-- **`after`** - Shows the "after" state with code upgraded to .NET 10 (same as master)
+- **`main`** - Contains the current, up-to-date code with .NET 10 fixes applied
+- **`after`** - Shows the "after" state with code upgraded to .NET 10 (same as main)
 - *(Historical)* A "before" branch showing some issues (in the pre-.NET 10 state)
 
-**Note:** The `master` branch contains the fully updated .NET 10 version with all compatibility fixes applied.
+**Note:** The `main` branch contains the fully updated .NET 10 version with all compatibility fixes applied.
 
 ## Key Features Demonstrated
 
