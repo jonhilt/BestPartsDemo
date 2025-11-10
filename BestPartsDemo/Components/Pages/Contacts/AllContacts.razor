@@ -36,20 +36,20 @@ else
             <div class="flex gap-2">
 
                 <SortButton OnClick="() => SetSortOrder(SortField.Name)"
-                            Active="_sortState?.Field == SortField.Name"
-                            IsDescending="_sortState?.IsDescending">
+                            Active="SortState?.Field == SortField.Name"
+                            IsDescending="SortState?.IsDescending">
                     Name
                 </SortButton>
 
                 <SortButton OnClick="() => SetSortOrder(SortField.Company)"
-                            Active="_sortState?.Field == SortField.Company"
-                            IsDescending="_sortState?.IsDescending">
+                            Active="SortState?.Field == SortField.Company"
+                            IsDescending="SortState?.IsDescending">
                     Company
                 </SortButton>
 
                 <SortButton OnClick="() => SetSortOrder(SortField.JobTitle)"
-                            Active="_sortState?.Field == SortField.JobTitle"
-                            IsDescending="_sortState?.IsDescending">
+                            Active="SortState?.Field == SortField.JobTitle"
+                            IsDescending="SortState?.IsDescending">
                     JobTitle
                 </SortButton>
 
@@ -81,13 +81,14 @@ else
         [SupplyParameterFromQuery(Name = "search")]
         public string? SearchQuery { get; set; }
 
-        private ContactSortState? _sortState;
+        [PersistentState]
+        public ContactSortState? SortState { get; set; }
 
         private bool _isLoading;
 
         protected override async Task OnInitializedAsync()
         {
-            _sortState ??= new ContactSortState(SortField.Name, false);
+            SortState ??= new ContactSortState(SortField.Name, false);
            
             if (Contacts == null || !Contacts.Any())
             {
@@ -119,12 +120,12 @@ else
             {
                 var filtered = FilteredContacts;
 
-                if (_sortState == null)
+                if (SortState == null)
                 {
                     return filtered;
                 }
 
-                var sorted = _sortState.Field switch
+                var sorted = SortState.Field switch
                 {
                     SortField.Name => filtered?.OrderBy(c => c.Name),
                     SortField.Company => filtered?.OrderBy(c => c.Company),
@@ -132,7 +133,7 @@ else
                     _ => filtered
                 };
 
-                return _sortState.IsDescending ? sorted?.Reverse() : sorted;
+                return SortState.IsDescending ? sorted?.Reverse() : sorted;
             }
         }
 
@@ -144,13 +145,13 @@ else
 
         private void SetSortOrder(SortField field)
         {
-            if (_sortState?.Field == field)
+            if (SortState?.Field == field)
             {
-                _sortState = _sortState with { IsDescending = !_sortState.IsDescending };
+                SortState = SortState with { IsDescending = !SortState.IsDescending };
             }
             else
             {
-                _sortState = new ContactSortState(field, false);
+                SortState = new ContactSortState(field, false);
             }
         }
 
