@@ -34,7 +34,14 @@ builder.Services.AddScoped<IContactService, ContactService>();
 
 builder.Services.AddValidation();
 
-builder.UseTailwindCli();
+// this site uses Tailwind to 'compile' app.css
+// For this to work you need to have Tailwind CSS installed locally
+// you can find a standalone Windows exe5 here:
+// https://github.com/tailwindlabs/tailwindcss/releases
+// download that, add it to your system PATH and then the following will work
+// (may need a restart of your IDE to get the PATH changes picked up)
+
+//builder.UseTailwindCli();
 
 var app = builder.Build();
 

@@ -27,6 +27,25 @@ Three projects:
 - .NET 10 SDK
 - Visual Studio 2022/26 or JetBrains Rider
 - (Optional) Docker Desktop - required only if testing Redis caching
+- **Tailwind CSS CLI** - Required for styling to work properly
+
+#### Installing Tailwind CSS CLI
+
+This project uses the Tailwind CSS standalone CLI to compile styles. If you want to make CSS changes, you can follow these steps to install it:
+
+1. Download the standalone Tailwind CSS executable for Windows from:
+   https://github.com/tailwindlabs/tailwindcss/releases
+
+2. Add the executable to your system PATH
+
+3. Restart your IDE to pick up the PATH changes
+
+4. Uncomment the following line in `BestPartsDemo/Program.cs` (line 37):
+   ```csharp
+   builder.UseTailwindCli();
+   ```
+
+**Note:** The application will run without Tailwind, but any style changes you make may not be applied until the CLI is installed and the configuration is uncommented.
 
 ### Running the Application
 
