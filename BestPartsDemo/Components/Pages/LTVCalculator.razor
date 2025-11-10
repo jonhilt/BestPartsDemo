@@ -1,0 +1,66 @@
+﻿@page "/ltvcalculator"
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+
+<h2 class="text-2xl font-semibold">Lifetime Value Calculator</h2>
+
+@if (!_isInitialized)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="mt-4 space-y-4">
+        <div>
+            <label for="totalPurchaseValue">Total Purchase Value:</label>
+            <input id="totalPurchaseValue" type="number" @bind="_totalPurchaseValue" class="rounded-md border p-2"/>
+        </div>
+        <div>
+            <label for="purchaseCount">Number of Purchases:</label>
+            <input id="purchaseCount" type="number" @bind="_numberOfPurchases" class="rounded-md border p-2"/>
+        </div>
+        <div>
+            <Button @onclick="Calculate">Calculate Average Purchase Value (APV)</Button>
+        </div>
+        <div>
+            <p>Result: @_result.ToString("C")</p>
+        </div>
+        <div>
+            <Button @onclick="GetLastOperation">View Last Operation</Button>
+        </div>
+        <div>
+            <p>Last Operation: @_lastOperation</p>
+        </div>
+    </div>
+}
+
+@code {
+    private double _totalPurchaseValue;
+    private double _numberOfPurchases;
+    private double _result;
+    private string _lastOperation = "No operations yet";
+    private IJSObjectReference? _calculatorInstance;
+    private bool _isInitialized;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_isInitialized)
+        {
+            var module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./calculator.js");
+            _calculatorInstance = await module.InvokeConstructorAsync("Calculator", "TestCalculator");
+            _isInitialized = true;
+            StateHasChanged();
+        }
+    }
+
+    private async Task Calculate()
+    {
+        _result = await _calculatorInstance!.InvokeAsync<double>("divide", _totalPurchaseValue, _numberOfPurchases);
+    }
+
+    private async Task GetLastOperation()
+    {
+        _lastOperation = await _calculatorInstance!.GetValueAsync<string>("lastOperation");
+    }
+
+}

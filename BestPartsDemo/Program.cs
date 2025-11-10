@@ -14,7 +14,7 @@ builder.AddServiceDefaults();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents(options => options.DisconnectedCircuitRetentionPeriod = TimeSpan.Zero);
 
-builder.Services.AddDbContext<ContactDbContext>(options =>
+builder.Services.AddDbContextFactory<ContactDbContext>(options =>
     options.UseInMemoryDatabase("ContactsDb"));
 
 builder.Services.AddScoped<IContactService, ContactService>();
