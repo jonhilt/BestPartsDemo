@@ -18,7 +18,7 @@
 else
 {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        @foreach (var contact in _contacts?.Take(10) ?? [])
+        @foreach (var contact in Contacts?.Take(10) ?? [])
         {
             <ContactCard Contact="@contact"/>
         }
@@ -28,13 +28,14 @@ else
 
 @code {
 
-    List<Contact>? _contacts;
+    [PersistentState]
+    public List<Contact>? Contacts { get; private set; }
 
     private bool _isLoading;
 
     protected override async Task OnInitializedAsync()
     {
-        if (_contacts == null)
+        if (Contacts == null)
         {
             _isLoading = true;
 
@@ -43,7 +44,7 @@ else
                 await Task.Delay(500); // Simulate loading delay for demo purposes
             }
 
-            _contacts = await ContactService.GetAllContactsAsync();
+            Contacts = await ContactService.GetAllContactsAsync();
             _isLoading = false;
         }
     }
