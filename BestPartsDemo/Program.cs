@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 using Tailwind;
 
-AppContext.SetSwitch("Microsoft.AspNetCore.Components.Routing.NavLink.EnableMatchAllForQueryStringAndFragment", true);
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
